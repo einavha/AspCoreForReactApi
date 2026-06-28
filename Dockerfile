@@ -13,17 +13,18 @@ EXPOSE 8081
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0-nanoserver-1809 AS with-node
 WORKDIR /src
-RUN curl https://nodejs.org/dist/v18.18.0/node-v18.18.0-win-x64.zip --output node.zip
+COPY node-v18.18.0-win-x64.zip .
+#RUN curl https://nodejs.org/dist/v18.18.0/node-v18.18.0-win-x64.zip --output node.zip
 RUN tar -xf node.zip
-USER ContainerAdministrator
+#USER ContainerAdministrator
 RUN setx /M path "%path%;C:\src\node-v18.18.0-win-x64"
-USER ContainerUser
+#USER ContainerUser
 
 
 FROM with-node AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AspCoreForReactApi.csproj", "ReactApp1.Server/"]
+COPY ["AspCoreForReactApi.csproj", "AspCoreForReactApi/"]
 #COPY ["reactapp1.client/reactapp1.client.esproj", "reactapp1.client/"]
 RUN dotnet restore "./AspCoreForReactApi.csproj"
 COPY . .
