@@ -1,11 +1,11 @@
 # 1. Base runtime stage using Linux ASP.NET Core image
-FROM ://microsoft.com AS base
+FROM microsoft AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
 # 2. Build stage using Linux .NET SDK image
-FROM ://microsoft.com AS with-node
+FROM microsoft AS with-node
 WORKDIR /src
 
 # Install Node.js v18 and build essentials for Linux
