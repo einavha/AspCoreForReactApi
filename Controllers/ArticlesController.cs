@@ -11,9 +11,6 @@ namespace ReactApp1.Server.Controllers
     [ApiController]
     public class ArticlesController : ControllerBase
     {
-        private static readonly string ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
-        private static readonly string ArticleFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles");
-
         private readonly IWebHostEnvironment _environment;
 
         public ArticlesController(IWebHostEnvironment environment)
@@ -31,11 +28,14 @@ namespace ReactApp1.Server.Controllers
             {
                 var options = new JsonSerializerOptions(JsonSerializerDefaults.Web) { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
+                var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
+                var ArticleFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles");
+
                 var articlesJson = await System.IO.File.ReadAllTextAsync(ArticlesFilePath);
-                var articles = JsonSerializer.Deserialize<List<ArticleItem>>(articlesJson, options); 
+                var articles = JsonSerializer.Deserialize<List<ArticleItem>>(articlesJson, options);
                 var images = await System.IO.File.ReadAllTextAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "imagesList.json"));
                 var imagesList = JsonSerializer.Deserialize<List<ImageItem>>(images, options);
-                var i = 0; 
+                var i = 0;
                 foreach (var article in articles)
                 {
                     var imagePath = Path.Combine(_environment.ContentRootPath, "Assets", "images", imagesList[i++].FileName);
@@ -82,6 +82,9 @@ namespace ReactApp1.Server.Controllers
             var article = articles?.FirstOrDefault(a => a.Id == id);
             if (!string.IsNullOrWhiteSpace(article.Content))
             {
+                var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
+                var ArticleFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles");
+
                 var contentFilePath = Path.Combine(ArticleFilePath, article.Content);
                 var content = System.IO.File.ReadAllText(contentFilePath, Encoding.Unicode);
                 //var contentBase64 = Convert.ToBase64(Encoding.Unicode.GetBytes(content));                
@@ -99,6 +102,7 @@ namespace ReactApp1.Server.Controllers
             var articles = await GetArticlesAsync();
             value.Id = articles.Count > 0 ? articles.Max(a => a.Id) + 1 : 1; // assign a new ID
             articles.Add(value);
+            var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
             await System.IO.File.WriteAllTextAsync(ArticlesFilePath, JsonSerializer.Serialize(articles));
         }
 
@@ -112,14 +116,16 @@ namespace ReactApp1.Server.Controllers
             if (articleIndex != -1)
             {
                 articles[articleIndex] = value; // update the article
+                var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
                 await System.IO.File.WriteAllTextAsync(ArticlesFilePath, JsonSerializer.Serialize(articles));
             }
             else
-                {
+            {
                 // article not found, you might want to handle this case (e.g., return a 404 response)
                 // add new article if it doesn't exist
                 value.Id = id; // assign the provided ID
                 articles.Add(value);
+                var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
                 await System.IO.File.WriteAllTextAsync(ArticlesFilePath, JsonSerializer.Serialize(articles));
             }
         }
@@ -134,6 +140,7 @@ namespace ReactApp1.Server.Controllers
             if (articleIndex != -1)
             {
                 articles.RemoveAt(articleIndex); // remove the article
+                var ArticlesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "articles", "articles.json");
                 await System.IO.File.WriteAllTextAsync(ArticlesFilePath, JsonSerializer.Serialize(articles));
             }
             else

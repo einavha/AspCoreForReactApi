@@ -40,10 +40,15 @@ namespace ReactApp1.Server
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            var assetsPath = Path.Combine(app.Environment.ContentRootPath, "Assets");
+            if (!Directory.Exists(assetsPath))
+            {
+                assetsPath = Path.Combine(app.Environment.ContentRootPath, "assets");
+            }
+
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(app.Environment.ContentRootPath, "Assets")),
+                FileProvider = new PhysicalFileProvider(assetsPath),
                 RequestPath = "/assets"
             });
 

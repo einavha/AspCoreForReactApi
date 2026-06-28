@@ -24,6 +24,19 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssetFiles Include="assets\**\*" />
+    <AssetFiles Include="Assets\**\*" />
+  </ItemGroup>
+
+  <Target Name="CopyAssetsToOutput" AfterTargets="Build">
+    <Copy SourceFiles="@(AssetFiles)" DestinationFiles="@(AssetFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyAssetsToPublish" AfterTargets="Publish">
+    <Copy SourceFiles="@(AssetFiles)" DestinationFiles="@(AssetFiles->'$(PublishDir)Assets\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
   <!--<ItemGroup>
     <None Update="assets\Editorials\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>-->
