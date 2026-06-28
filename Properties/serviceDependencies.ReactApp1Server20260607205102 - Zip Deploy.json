@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/ReactApp1Serverapi1/apis/ReactApp1Server",
+      "type": "apis.azure"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>59945660-5f3d-4052-b320-d926789d7f1e</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <SpaRoot>..\reactapp1.client</SpaRoot>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://127.0.0.1:5173</SpaProxyServerUrl>
+    <StartupObject>ReactApp1.Server.Program</StartupObject>
+    <RunClientBuild>true</RunClientBuild>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <Content Remove="assets\Editorials\list.json" />
+    <Content Remove="assets\imagesList.json" />
+  </ItemGroup>-->
+
+  <!--<ItemGroup>
+    <None Remove="assets\images\Adon_Exclusive_Model_Don_Hood_By_Blake_Ballard.jpg" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+      <Version>9.*-*</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\reactapp1.client\reactapp1.client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <None Update="assets\Editorials\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>-->
+
+  <!--<ItemGroup>
+    <None Include="assets\Editorials\list.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\imagesList.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <Target Name="PublishClient" BeforeTargets="Publish" Condition="'$(RunClientBuild)' == 'true'">
+    <Exec Command="npm ci" WorkingDirectory="$(SpaRoot)" />
+    <Exec Command="npm run build" WorkingDirectory="$(SpaRoot)" />
+
+    <ItemGroup>
+      <ClientDistFiles Include="$(SpaRoot)\dist\**\*" />
+      <ClientConfigFile Include="$(SpaRoot)\config.json" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(ClientDistFiles)" DestinationFiles="@(ClientDistFiles->'$(PublishDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ClientConfigFile)" DestinationFiles="$(PublishDir)wwwroot\config.json" />
+  </Target>
+
+  <!--<ItemGroup>
+    <TypeScriptCompile Include="assets\images\Adon_Exclusive_Model_Don_Hood_By_Blake_Ballard.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </TypeScriptCompile>
+  </ItemGroup>-->
+</Project>

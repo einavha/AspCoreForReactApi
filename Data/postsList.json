@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "width": 400,
+    "height": 800,
+    "title": "Post 1",
+    "content": "This is the content of post 1.",
+    "featuredImage": "/api/editorials/image/adon-exclusive-model-alasdair-russell-by-malcolm-joris-5seek/FACES_ALASDAIR_00.jpg"
+  },
+  {
+    "id": 2,
+    "width": 800,
+    "height": 400,
+    "title": "Post 2",
+    "content": "This is the content of post 2.",
+    "featuredImage": "/api/editorials/image/video-killed-the-radio-star-featuring-model-gil-soares-by-ted-sun-wez5e/ADON-1639.jpg"
+  },
+  {
+    "id": 3,
+    "width": 400,
+    "height": 400,
+    "title": "Post 3",
+    "content": "This is the content of post 3.",
+    "featuredImage": "/api/editorials/image/temp/image1-wrongprint-1.png"
+  },
+  {
+    "id": 4,
+    "width": 400,
+    "height": 400,
+    "title": "Post 4",
+    "content": "This is the content of post 4.",
+    "featuredImage": "/api/editorials/image/temp/image1-wrongprint-2.png"
+  },
+  {
+    "id": 5,
+    "width": 400,
+    "height": 800,
+    "title": "Post 5",
+    "content": "This is the content of post 5.",
+    "featuredImage": "/api/editorials/image/temp/image1-wrongprint-3.png"
+  },
+  {
+    "id": 4,
+    "width": 400,
+    "height": 400,
+    "title": "Post 6",
+    "content": "This is the content of post 4.",
+    "featuredImage": "/api/editorials/image/temp/image1-wrongprint-2.png"
+  },
+  {
+    "id": 5,
+    "width": 400,
+    "height": 400,
+    "title": "Post 7",
+    "content": "This is the content of post 5.",
+    "featuredImage": "/api/editorials/image/video-killed-the-radio-star-featuring-model-gil-soares-by-ted-sun-wez5e/ADON-1639.jpg"
+  },
+  {
+    "id": 5,
+    "width": 400,
+    "height": 400,
+    "title": "Post 8",
+    "content": "This is the content of post 5.",
+    "featuredImage": "/api/editorials/image/adon-exclusive-model-alasdair-russell-by-malcolm-joris-5seek/FACES_ALASDAIR_00.jpg"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "postId": 1,
+    "name": "Attachment 1",
+    "url": "https://example.com/attachment1.pdf"
+  },
+  {
+    "id": 2,
+    "postId": 1,
+    "name": "Attachment 2",
+    "url": "https://example.com/attachment2.pdf"
+  },
+  {
+    "id": 1,
+    "postId": 2,
+    "name": "Attachment 1",
+    "url": "https://example.com/attachment1.pdf"
+  },
+  {
+    "id": 2,
+    "postId": 2,
+    "name": "Attachment 2",
+    "url": "https://example.com/attachment2.pdf"
+  }
+]
