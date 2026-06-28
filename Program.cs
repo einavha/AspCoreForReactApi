@@ -7,11 +7,43 @@ namespace ReactApp1.Server
     {
         public static void Main(string[] args)
         {
+            const string clientCorsPolicy = "ClientCorsPolicy";
+
             var builder = WebApplication.CreateBuilder(args);
+
+            var configuredOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>() ?? [];
+
+            var environmentOrigins = (builder.Configuration["CORS_ALLOWED_ORIGINS"] ?? string.Empty)
+                .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            var allowedOrigins = new[]
+                {
+                    "http://localhost:5173",
+                    "https://localhost:5173",
+                    "http://localhost:5174",
+                    "https://localhost:5174"
+                }
+                .Concat(configuredOrigins)
+                .Concat(environmentOrigins)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
 
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddHttpClient();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(clientCorsPolicy, policy =>
+                {
+                    policy
+                        .WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -73,7 +105,7 @@ namespace ReactApp1.Server
                     context.Request.QueryString);
             });
 
-            app.UseCors();
+            app.UseCors(clientCorsPolicy);
 
             app.UseAuthentication();
             app.UseAuthorization();
