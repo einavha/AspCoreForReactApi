@@ -57,31 +57,6 @@ namespace ReactApp1.Server.Controllers
             return Ok(post);
         }
 
-        [HttpGet("/wp-content/{**path}")]
-        public async Task<IActionResult> GetImage(string path)
-        {
-            var requestUrl = $"{_wordPressBaseUrl.TrimEnd('/')}/wp-content/{path}{Request.QueryString}";
-
-            try
-            {
-                using var response = await _httpClient.GetAsync(requestUrl);
-                if (!response.IsSuccessStatusCode)
-                {
-                    return StatusCode((int)response.StatusCode);
-                }
-
-                var contentType = response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
-                var image = await response.Content.ReadAsByteArrayAsync();
-
-                return File(image, contentType);
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"Error reading WordPress image: {ex.Message}");
-                return StatusCode(StatusCodes.Status502BadGateway);
-            }
-        }
-
         private async Task<List<JsonElement>> GetWordPressPosts(string? slug = null)
         {
             var query = "rest_route=/wp/v2/posts&per_page=100&_embed=1";
