@@ -16,10 +16,7 @@ WORKDIR /src
 COPY node-v18.18.0-win-x64.zip .
 #RUN curl https://nodejs.org/dist/v18.18.0/node-v18.18.0-win-x64.zip --output node.zip
 RUN tar -xf node.zip
-#USER ContainerAdministrator
 RUN setx /M path "%path%;C:\src\node-v18.18.0-win-x64"
-#USER ContainerUser
-
 
 FROM with-node AS build
 ARG BUILD_CONFIGURATION=Release
