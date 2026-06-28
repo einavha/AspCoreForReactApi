@@ -1,39 +1,45 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-# For more information, please see https://aka.ms/containercompat
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-nanoserver-1809 AS base
+# 1. Base runtime stage using Linux ASP.NET Core image
+FROM ://microsoft.com AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0-nanoserver-1809 AS with-node
+# 2. Build stage using Linux .NET SDK image
+FROM ://microsoft.com AS with-node
 WORKDIR /src
-COPY node-v18.18.0-win-x64.zip .
-#RUN curl https://nodejs.org/dist/v18.18.0/node-v18.18.0-win-x64.zip --output node.zip
-RUN tar -xf node.zip
-RUN setx /M path "%path%;C:\src\node-v18.18.0-win-x64"
 
+# Install Node.js v18 and build essentials for Linux
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://nodesource.com | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://nodesource.com nodistro main" | tee /etc/apt/sources.list.dir/nodesource.list \
+    && apt-get update && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# 3. Project compilation stage
 FROM with-node AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Copy the API project file and restore dependencies
 COPY ["AspCoreForReactApi.csproj", "AspCoreForReactApi/"]
-#COPY ["reactapp1.client/reactapp1.client.esproj", "reactapp1.client/"]
-RUN dotnet restore "./AspCoreForReactApi.csproj"
+RUN dotnet restore "AspCoreForReactApi/AspCoreForReactApi.csproj"
+
+# Copy the rest of the source code
 COPY . .
 WORKDIR "/src/AspCoreForReactApi"
-RUN dotnet build "./AspCoreForReactApi.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
+# Build the project using Linux environment variable syntax ($ instead of %)
+RUN dotnet build "AspCoreForReactApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# 4. Publication stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AspCoreForReactApi.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "AspCoreForReactApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+# 5. Final production image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
