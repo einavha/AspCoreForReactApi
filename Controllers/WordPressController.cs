@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ReactApp1.Server.Controllers
+namespace AspCoreForReactApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

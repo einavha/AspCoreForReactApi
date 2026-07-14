@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ReactApp1.Server.Controllers
+namespace AspCoreForReactApi.Controllers
 {
     public class Editorial
     {

@@ -5,7 +5,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ReactApp1.Server.Controllers
+namespace AspCoreForReactApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,4 +1,4 @@
-﻿namespace ReactApp1.Server.Data
+﻿namespace AspCoreForReactApi.Data
 {
     public class WDPost
     {   

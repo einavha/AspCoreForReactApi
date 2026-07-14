@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.FileProviders;
 
-namespace ReactApp1.Server
+namespace AspCoreForReactApi
 {
     public class Program
     {
@@ -23,7 +23,9 @@ namespace ReactApp1.Server
                     "http://localhost:5173",
                     "https://localhost:5173",
                     "http://localhost:5174",
-                    "https://localhost:5174"
+                    "https://localhost:5174",
+                    "https://twodots.co.il",
+                    "https://www.twodots.co.il",
                 }
                 .Concat(configuredOrigins)
                 .Concat(environmentOrigins)

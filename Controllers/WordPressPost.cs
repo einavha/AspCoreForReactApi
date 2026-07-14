@@ -1,4 +1,4 @@
-﻿namespace ReactApp1.Server.Controllers
+﻿namespace AspCoreForReactApi.Controllers
 {
     public class WordPressPost
     {
