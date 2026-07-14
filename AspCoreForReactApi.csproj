@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>59945660-5f3d-4052-b320-d926789d7f1e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <StartupObject>ReactApp1.Server.Program</StartupObject>
+    <StartupObject>AspCoreForReactApi.Program</StartupObject>
   </PropertyGroup>
 
   <!--<ItemGroup>
