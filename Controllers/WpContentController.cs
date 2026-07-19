@@ -26,8 +26,8 @@ namespace AspCoreForReactApi.Controllers
             }
 
             var requestUrl = $"{_wordPressBaseUrl.TrimEnd('/')}/wp-content/{EscapePath(path)}{Request.QueryString}";
-            Response.WriteAsync($"Requesting WordPress content from: {requestUrl}\n");
-            return null; 
+            //Response.WriteAsync($"Requesting WordPress content from: {requestUrl}\n");
+            return Content($"Requesting WordPress content from: {requestUrl}\n", "text/plain");
 
             try
             {
